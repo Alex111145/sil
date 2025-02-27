@@ -1,0 +1,27 @@
+name: Build Windows Executable
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install pyinstaller
+
+      - name: Build EXE
+        run: pyinstaller --onefile --noconsole tuo_script.py
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v2
+        with:
+          name: executable
+          path: dist/tuo_script.exe
